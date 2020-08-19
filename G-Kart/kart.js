@@ -348,8 +348,6 @@ class GameEngine {
         }
       }
     }
-
-    this.checkEnunciadoBtnClick(x, y);
   }
 
   gameLoop() {
@@ -925,148 +923,6 @@ class GameEngine {
     this.ctx.textBaseline = "alphabetic";
   }
 
-  renderQuestionLabel2() {
-    //Set sizes
-    var fontSize = 17;
-    var labelRect = {
-      x: 5,
-      y: 5,
-      w: canvas.width - 16,
-      h: undefined,
-      padding: {
-        x: 4,
-        y: 4
-      },
-      borderSize: 4
-    };
-
-    labelRect.h =
-      fontSize * 2 + labelRect.padding.y * 2 + labelRect.borderSize * 2;
-
-    if (this.layout == "desktop") {
-      labelRect.w *= 2;
-    }
-
-    // BG
-    canvasContext.strokeStyle = "#9FD37C";
-    canvasContext.fillStyle = "#FFFFFF";
-    roundRect(
-      canvasContext,
-      labelRect.x,
-      labelRect.y,
-      labelRect.w,
-      labelRect.h,
-      5,
-      true,
-      labelRect.borderSize
-    );
-
-    //Texto
-    this.ctx.font = fontSize + "px sans-serif";
-    this.ctx.fillStyle = "black";
-
-    this.ctx.fillText(
-      "CLIQUE NO CARRO QUE APRESENTA",
-      labelRect.x + labelRect.padding.x + 54,
-      labelRect.y + labelRect.padding.y + fontSize,
-      canvas.width - labelRect.x
-    );
-
-    this.ctx.fillText(
-      "O RESULTADO DA MULTIPLICAÇÂO.",
-      labelRect.x + labelRect.padding.x + 54,
-      labelRect.y + labelRect.padding.y + fontSize * 2,
-      canvas.width - labelRect.x
-    );
-
-    //Circle with number
-    // var circleRadius =
-    //   (fontSize * 2 + labelRect.padding.y * 2 + labelRect.borderSize * 2) / 2;
-    // this.ctx.beginPath();
-    // this.ctx.arc(
-    //   labelRect.x - circleRadius + 20,
-    //   labelRect.y + circleRadius,
-    //   circleRadius,
-    //   0,
-    //   2 * Math.PI,
-    //   false
-    // );
-    // this.ctx.fillStyle = "#75C043";
-    // this.ctx.fill();
-    // this.ctx.lineWidth = 3;
-    // this.ctx.strokeStyle = "#9FD37C";
-    // this.ctx.stroke();
-
-    // this.ctx.font = "bold 42px sans-serif";
-    // this.ctx.strokeStyle = "#FFFFFF";
-    // this.ctx.fillStyle = "#FFFFFF";
-    // this.ctx.fillText(
-    //   "?",
-    //   labelRect.x - circleRadius + 20 - 12,
-    //   labelRect.y + circleRadius + 14,
-    //   canvas.width - labelRect.x
-    // );
-
-    this.renderEnunciadoBtn();
-  }
-  renderEnunciadoBtn() {
-    if (!this.enunciadoBtn) {
-      this.enunciadoBtn = {};
-
-      this.enunciadoBtn.animCounter = 0;
-    }
-
-    this.enunciadoBtn.rect = {
-      x: 32,
-      y: 32,
-      w: 169 * 0.14,
-      h: 150 * 0.14
-    }
-
-    this.enunciadoBtn.animCounter++;
-
-    this.ctx.beginPath();
-    this.ctx.arc(
-      this.enunciadoBtn.rect.x,
-      this.enunciadoBtn.rect.y,
-
-      this.enunciadoBtn.rect.w * 0.95,
-      0,
-      2 * Math.PI,
-      false
-    );
-    this.enunciadoBtn.circle = {
-      x: this.enunciadoBtn.rect.x,
-      y: this.enunciadoBtn.rect.y,
-      radius: this.enunciadoBtn.rect.w * 0.95
-    }
-
-    this.ctx.fillStyle = "#005279";
-    this.ctx.fill();
-    this.ctx.lineWidth = 3;
-    this.ctx.strokeStyle = "#75c043";
-    this.ctx.stroke();
-    this.ctx.closePath();
-
-    this.ctx.save();
-    this.ctx.translate(this.enunciadoBtn.rect.x, this.enunciadoBtn.rect.y);
-    this.ctx.rotate(degrees_to_radians(Math.cos(degrees_to_radians(this.enunciadoBtn.animCounter * 3)) * 9));
-    var animFactor = (1 + Math.abs(Math.cos(degrees_to_radians(this.enunciadoBtn.animCounter))) * 0.15);
-    this.ctx.drawImage(
-      megafone,
-
-      -this.enunciadoBtn.rect.w * 0.5 * animFactor,
-      -this.enunciadoBtn.rect.h * 0.5 * animFactor,
-      this.enunciadoBtn.rect.w * animFactor,
-      this.enunciadoBtn.rect.h * animFactor
-    );
-    this.ctx.restore();
-  }
-  checkEnunciadoBtnClick(x, y) {
-    if (Physics.pointCircle({ x: x, y: y }, this.enunciadoBtn.circle)) {
-      this.playEnunciadoAudio(0);
-    }
-  }
   playEnunciadoAudio(delay = 3000) {
     if (!this.playedSoundEnunciado)
       this.playedSoundEnunciado = false;
@@ -1085,7 +941,6 @@ class GameEngine {
   }
 
   renderQuestion(question) {
-    this.renderQuestionLabel2();
     this.renderRacerFlags(question);
     this.renderMathOperation(question);
   }
