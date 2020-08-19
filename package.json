@@ -1,0 +1,15 @@
+{
+  "name": "tabuada-espcial-alpha",
+  "version": "1.0.0",
+  "main": "./src/babel/PageSlider.js",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0"
+  },
+  "scripts": {
+    "dev": "yarn dev-karts",
+    "dev-karts": "babel ./G-Kart/kart.js -o ./G-Kart/transpiled.js"
+  }
+}
